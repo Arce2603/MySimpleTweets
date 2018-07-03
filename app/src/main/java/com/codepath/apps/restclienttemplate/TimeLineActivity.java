@@ -1,10 +1,13 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -12,6 +15,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -23,6 +27,7 @@ public class TimeLineActivity extends AppCompatActivity {
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
     RecyclerView rvTweets;
+    private final int REQ_CODE= 20;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,30 @@ public class TimeLineActivity extends AppCompatActivity {
         rvTweets.setAdapter(tweetAdapter);
         populateTimeLine();
         
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public void onComposeAction(MenuItem item){
+        Intent intent=new Intent(TimeLineActivity.this, ComposeActivity.class);
+        startActivityForResult(intent,REQ_CODE);
+    }
+
+    // time to handle the result of the sub-activity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // REQUEST_CODE is defined above
+        if (resultCode == RESULT_OK && requestCode == REQ_CODE) {
+            Tweet tweet = (Tweet) Parcels.unwrap(data.getParcelableExtra("tweet"));
+            tweets.add(0, tweet);
+            tweetAdapter.notifyItemInserted(0);
+            rvTweets.scrollToPosition(0);
+        }
     }
 
     private void populateTimeLine() {
