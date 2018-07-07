@@ -20,19 +20,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
-public class ComposeActivity extends AppCompatActivity {
+public class ReplyActivity extends AppCompatActivity {
 
     private TwitterClient client;
-    @BindView(R.id.tvCounter) TextView tvCounter;
+    @BindView(R.id.tvCounter)TextView tvCounter;
+    @BindView(R.id.tvScreenName) TextView tvHandler;
     @BindView(R.id.etTweet) EditText etTwe;
+    Tweet tweet;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compose);
+        setContentView(R.layout.activity_reply);
         client = TwitterApp.getRestClient(this);
         //butterknife tool
         ButterKnife.bind(this);
+        tweet = (Tweet)Parcels.unwrap(getIntent().getParcelableExtra("rep"));
+        tvHandler.setText(tweet.handel);
         //sets listener for text changes
         etTwe.addTextChangedListener(new TextWatcher() {
 
@@ -53,9 +58,9 @@ public class ComposeActivity extends AppCompatActivity {
         });
     }
 
-    public void onSubmit(View v) {
+    public void reply(View v) {
         EditText etTweet = (EditText) findViewById(R.id.etTweet);
-        String message = etTweet.getText().toString();
+        String message = tweet.handel + " "+ etTweet.getText().toString();
         client.sendTweet(message, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -76,3 +81,4 @@ public class ComposeActivity extends AppCompatActivity {
         });
     }
 }
+

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -48,7 +49,7 @@ public class TimeLineActivity extends AppCompatActivity {
             // Make sure you call swipeContainer.setRefreshing(false)
             // once the network request has completed successfully.
                 fetchTimelineAsync(0);
-                Toast.makeText(getApplicationContext(),"Got it",Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(),"Got it",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -71,7 +72,6 @@ public class TimeLineActivity extends AppCompatActivity {
         //set the adapter
         rvTweets.setAdapter(tweetAdapter);
         populateTimeLine();
-        
     }
 
     //Method for the refresh
@@ -99,7 +99,7 @@ public class TimeLineActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                Toast.makeText(getApplicationContext(),"Got it: finished adding",Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"Got it: finished adding",Toast.LENGTH_LONG).show();
                 // Now we call setRefreshing(false) to signal refresh has finished
                 tweetAdapter.addAll(tweets);
                 swipeContainer.setRefreshing(false);
@@ -183,5 +183,24 @@ public class TimeLineActivity extends AppCompatActivity {
         });
     }
 
+
+    public void OnReply(View v){
+        int position= 0;
+        Tweet tweet =tweets.get(position);
+        Toast.makeText(getApplicationContext(),"Got Reply",Toast.LENGTH_LONG).show();
+        Intent intent=new Intent(TimeLineActivity.this, ReplyActivity.class);
+        intent.putExtra("rep",Parcels.wrap(tweet));
+        startActivityForResult(intent,REQ_CODE);
+    }
+
+    public void OnRetweet(View v){
+        Toast.makeText(getApplicationContext(),"Got Retweet",Toast.LENGTH_LONG).show();
+
+    }
+
+    public void OnFav (View v){
+        Toast.makeText(getApplicationContext(),"Got Fav",Toast.LENGTH_LONG).show();
+
+    }
 
 }

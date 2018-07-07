@@ -10,8 +10,8 @@
     <application
         android:name=".TwitterApp"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/ic_launcher_twitter"
+        android:label="Tweet"
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
@@ -34,7 +34,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".TimeLineActivity" />
-        <activity android:name=".ComposeActivity"></activity>
+        <activity android:name=".ComposeActivity" />
+        <activity android:name=".RetweetActivity" />
+        <activity android:name=".ReplyActivity"></activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

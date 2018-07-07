@@ -55,10 +55,15 @@ public class TweetAdapter extends  RecyclerView.Adapter<TweetAdapter.ViewHolder>
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.tvTime.setText(getRelativeTimeAgo(tweet.createdAt));
+        holder.tvFav.setText(tweet.favs);
+        holder.tvScreen.setText(tweet.user.screenName);
+        holder.tvRet.setText(tweet.retweets);
 
         Glide.with(context)
-                .load(tweet.user.profileImageUrl) . into(holder.ivProfileImage);
+                .load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -73,6 +78,9 @@ public class TweetAdapter extends  RecyclerView.Adapter<TweetAdapter.ViewHolder>
         @BindView(R.id.tvUserName) TextView tvUsername;
         @BindView(R.id.tvBody)  TextView tvBody;
         @BindView(R.id.tvTime)  TextView tvTime;
+        @BindView(R.id.tvFav)  TextView tvFav;
+        @BindView(R.id.tvRet)  TextView tvRet;
+        @BindView(R.id.tvScreen)  TextView tvScreen;
 
         /* alternative version without butterknife
         ImageView ivProfileImage;
@@ -80,15 +88,11 @@ public class TweetAdapter extends  RecyclerView.Adapter<TweetAdapter.ViewHolder>
         TextView tvBody;
         */
 
+        //@OnClick()
 
         public ViewHolder (View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-           /* ivProfileImage=(ImageView) itemView.findViewById(R.id.ivProfileImage);
-            tvBody=(TextView) itemView.findViewById(R.id.tvBody);
-            tvUsername=(TextView) itemView.findViewById(R.id.tvUserName);*/
-
         }
 
     }
